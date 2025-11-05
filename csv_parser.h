@@ -17,13 +17,13 @@
 #ifndef CSV_PARSER_API
 #ifndef CSV_PARSER_API_STATIC
 #define CSV_PARSER_API extern
-#define CSV_PARSER_DEFN_API 
+#define CSV_PARSER_DEFN_API
 #else
 #define CSV_PARSER_API static
 #define CSV_PARSER_DEFN_API static
 #endif
 #else
-#ifndef CSV_PARSER_DEFN_API 
+#ifndef CSV_PARSER_DEFN_API
 #error "If CSV_PARSER_API is defined, then CSV_PARSER_DEFN_API must also be defined"
 #endif
 #endif
@@ -199,7 +199,7 @@ CSV_PARSER_API void csv_parser_release(CSV_PARSER *parser);
 
 
 /*! \fn uint8_t *csv_parser_next(CSV_PARSER *parser, size_t *length)
-	\brief Parses the next element in the CSV buffer. 
+	\brief Parses the next element in the CSV buffer.
 	This procedure is expected to be called in a loop of [CSV_PARSER::lines](@ref CSV_PARSER::lines) and [CSV_PARSER::columns](@ref CSV_PARSER::columns).
 	The first [CSV_PARSER::columns](@ref CSV_PARSER::columns) values are always the heading of the CSV buffer
 
@@ -284,7 +284,7 @@ static int64_t _csv_parser_count_columns(CSV_PARSER *parser) {
 		parser->position += 1;
 	}
 
-	// If we have found some number of elements and '\n' at the end, 
+	// If we have found some number of elements and '\n' at the end,
 	// the total number of columns needs to be increased by 1
 	count += (count != 0);
 
@@ -349,10 +349,12 @@ CSV_PARSER_DEFN_API void csv_parser_init(CSV_PARSER *parser, void *allocator_con
 }
 
 CSV_PARSER_DEFN_API void *csv_parser_malloc(size_t size, void *context) {
+	(void)context;
 	return CSV_PARSER_MALLOC(size, context);
 }
 
 CSV_PARSER_DEFN_API void csv_parser_free(void *ptr, void *context) {
+	(void)context;
 	CSV_PARSER_FREE(ptr, context);
 }
 

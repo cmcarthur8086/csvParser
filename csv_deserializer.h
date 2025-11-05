@@ -176,6 +176,7 @@ CSV_PARSER_API size_t csv_deserialize(void *context, void *ptr_to_struct, CSV_DE
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_length_string(void *context, uint8_t *value, size_t len, CSV_PARSER_STRING *out)
 {
+	(void)context;
 	if (len) {
 		if (value[0] != '"') {
 			out->data = value;
@@ -193,6 +194,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_length_string(void *context,
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_string(void *context, uint8_t *value, size_t len, char **out)
 {
+	(void)context;
 	if (len) {
 		if (value[0] != '"') {
 			*out = (char *)value;
@@ -208,6 +210,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_string(void *context, uint8_
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_length_stringdup(void *context, uint8_t *value, size_t len, CSV_PARSER_STRING *out)
 {
+	(void)context;
 	if (len) {
 		if (value[0] != '"') {
 			out->data = (uint8_t *)CSV_STRING_DUPLICATE((char *)value);
@@ -225,17 +228,20 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_length_stringdup(void *conte
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_stringdup(void *context, uint8_t *str, size_t len, char **value)
 {
+	(void)context;
+	(void)len;
 	char *ptr = CSV_STRING_DUPLICATE((char *)str);
 	if (!ptr)
 		return 0;
-	// ---> Unsafe casting here <----- ; This is C land.. who cares 
+	// ---> Unsafe casting here <----- ; This is C land.. who cares
 	*value = ptr;
-	// <------------------------------> 
+	// <------------------------------>
 	return 1;
 }
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_sint(void *context, uint8_t *value, size_t len, int64_t *out)
 {
+	(void)context;
 	char *end = NULL;
 	long long num = CSV_STRING_TO_INT64((char *)value, &end, 10);
 	if (value + len == (uint8_t *)end) {
@@ -247,6 +253,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_sint(void *context, uint8_t 
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_uint(void *context, uint8_t *value, size_t len, uint64_t *out)
 {
+	(void)context;
 	char *end = NULL;
 	long long num = CSV_STRING_TO_UINT64((char *)value, &end, 10);
 	if (value + len == (uint8_t *)end) {
@@ -258,6 +265,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_uint(void *context, uint8_t 
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_boolean(void *context, uint8_t *value, size_t len, CSV_PARSER_Bool *out)
 {
+	(void)context;
 	switch (len) {
 	case 1:
 		*out = (value[0] == '1');
@@ -271,7 +279,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_boolean(void *context, uint8
 			*out = 1;
 			return 1;
 		}
-
+		break;
 	case 5:
 		if ((value[0] == 'f' || value[0] == 'F') &&
 			(value[1] == 'a' || value[1] == 'A') &&
@@ -281,6 +289,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_boolean(void *context, uint8
 			*out = 0;
 			return 1;
 		}
+		break;
 	}
 
 	return 0;
@@ -288,6 +297,7 @@ CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_boolean(void *context, uint8
 
 CSV_PARSER_DEFN_API CSV_PARSER_Bool csv_deserialize_real(void *context, uint8_t *value, size_t len, double *out)
 {
+	(void)context;
 	char *end = NULL;
 	double num = CSV_STRING_TO_DOUBLE((char *)value, &end);
 	if (value + len == (uint8_t *)end) {
